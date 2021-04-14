@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ContactBook.View.Login"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:LocalizeDictionary.OutputMissingKeys="True"
+             lex:ResxLocalizationProvider.DefaultAssembly="ContactBook"
+             lex:ResxLocalizationProvider.DefaultDictionary="Languages"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ContactBook.View"
+             mc:Ignorable="d" Height="390" Width="800">
+    <Grid Height="390" Margin="0,0,0,0.4" VerticalAlignment="Bottom">
+        <Canvas Background="LightBlue" HorizontalAlignment="Center" VerticalAlignment="Center" Height="330" Width="382" Opacity="0.2" Margin="202,57,216,0" />
+        <PasswordBox HorizontalAlignment="Left" Height="33" Margin="375,212,0,0" VerticalAlignment="Top" Width="139" FontSize="20" Name="passwordbox" />
+        <Button IsDefault="True" Content="{lex:Loc Confirm}" Canvas.Left="162" Canvas.Top="237" Width="114" Height="38" Margin="375,281,311,71" Command="{Binding LoginConrirmCommand}" CommandParameter="{Binding ElementName=passwordbox}"/>
+        <TextBlock TextAlignment="Center" Foreground="Black" TextDecorations="underline" TextWrapping="Wrap" Text="{lex:Loc Login}" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="319,67,306,0" Width="175"/>
+        <TextBox Text="{Binding LoginName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="33" Margin="375,143,0,0" VerticalAlignment="Top" Width="139" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="232,142,0,0" TextWrapping="Wrap" Text="{lex:Loc LoginName}" VerticalAlignment="Top" FontSize="25"/>
+        <TextBlock HorizontalAlignment="Left" Margin="232,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="25" Text="{lex:Loc Password}"/>
+    </Grid>
+</UserControl>

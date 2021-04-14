@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="ContactBook.View.ContactBook"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:LocalizeDictionary.OutputMissingKeys="True"
+             lex:ResxLocalizationProvider.DefaultAssembly="ContactBook"
+             lex:ResxLocalizationProvider.DefaultDictionary="Languages"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ContactBook.View"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local1:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/Aqua_Blue.png"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Grid.Row="0" FontSize="10" Grid.Column="1" Background="Transparent" ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
+            SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture}" DisplayMemberPath="NativeName" Margin="360,3,3,30.5"  />
+        <Canvas Opacity="0.4" Margin="241,0,184,18" Grid.Column="1" MouseEnter="Canvas_MouseEnter" MouseLeave="Canvas_MouseLeave">
+            <Button Grid.Column="1" Grid.Row="0" Command="{Binding LogoutCommand}" Content="{lex:Loc Logout}" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="98" Height="35" FontSize="17" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Canvas>
+        <ListView Background="Transparent" BorderBrush="Black" BorderThickness="0.5" Name="ListView" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding ContactList}" SelectedItem="{Binding SelectedContact}" Margin="0,0,0.0,2" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75" />
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+                        <Border BorderThickness="0.5" BorderBrush="Black">
+                            <Image Stretch="Fill" Grid.Column="0" Source="{Binding Image}" >
+                            </Image>
+                        </Border>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5*" />
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock  Grid.Row="0" FontWeight="Bold" FontSize="17" TextWrapping="Wrap">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} {1}">
+                                        <Binding Path="FirstName" />
+                                        <Binding Path="LastName" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock  Grid.Row="1" FontSize="10" TextWrapping="Wrap">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0}; {1}">
+                                        <Binding Path="EmailAddress" />
+                                        <Binding Path="PhoneNumber" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Opacity" Value="0.8"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Height" Value="76.3" />
+                    <Setter Property="Margin" Value="0.5" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="White" Opacity="0.3"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+        </ListView>
+        <Button Command="{Binding AddCommand}" Grid.Column="1" Grid.Row="1" Content="{lex:Loc Add}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="106" Height="36" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="388,85,0,0"/>
+        <TextBox Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="168,90,0,0" Grid.Row="1" FontSize="13"  Text="{Binding SelectedContact.FirstName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="164"/>
+        <TextBox Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="168,153,0,0" Grid.Row="1" FontSize="13"  Text="{Binding SelectedContact.LastName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="164" RenderTransformOrigin="-0.227,0.682"/>
+        <TextBox Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="168,215,0,0" Grid.Row="1" FontSize="13"  Text="{Binding SelectedContact.EmailAddress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="164" RenderTransformOrigin="-0.279,0.424"/>
+        <TextBox Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="168,276,0,0" Grid.Row="1" FontSize="13"  Text="{Binding SelectedContact.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="164"/>
+        <TextBlock Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" FontSize="20" Grid.Column="1" HorizontalAlignment="Left" Margin="46,90,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{lex:Loc FirstName}" VerticalAlignment="Top" Height="31" Width="117"/>
+        <TextBlock Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" FontSize="20" Grid.Column="1" HorizontalAlignment="Left" Margin="46,153,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{lex:Loc LastName}" VerticalAlignment="Top" Height="31" Width="117"/>
+        <TextBlock Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" FontSize="20" Grid.Column="1" HorizontalAlignment="Left" Margin="46,215,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Email:" VerticalAlignment="Top" Height="31" Width="117"/>
+        <TextBlock Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" FontSize="20" Grid.Column="1" HorizontalAlignment="Left" Margin="46,276,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{lex:Loc Phone}" VerticalAlignment="Top" Height="31" Width="117"/>
+        <Button  Grid.Column="1" Grid.Row="1" Command="{Binding EditCommand}" Content="{lex:Loc Edit}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="108" Height="36" FontSize="17" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="388,210,0,0" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.688"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button  Grid.Column="1" Grid.Row="1" Command="{Binding DeleteCommand}" Content="{lex:Loc Delete}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="106" Height="36" FontSize="17" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="388,148,0,0"/>
+        <Button  Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" Grid.Row="1" Command="{Binding EditImageCommand}" Content="{lex:Loc SetImage}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="106" Height="36" FontSize="17" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="388,271,0,0" RenderTransformOrigin="0.483,0.544"/>
+        <TextBlock HorizontalAlignment="Left" Margin="5,7,0,0" TextWrapping="Wrap" FontStyle="Oblique" TextDecorations="underline" FontSize="30" Text="{lex:Loc ContactBook}" VerticalAlignment="Top" Height="41" Width="256" FontWeight="Bold"/>
+        <Button Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Content="{lex:Loc Cancel}" Grid.Column="1" Grid.Row="1" Command="{Binding CancelEditCommand}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="77" Height="36" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="255,329,0,0"/>
+        <Button  Visibility="{Binding VisibilityProperty, Converter={StaticResource BooleanToVisibility}}" Grid.Column="1" Grid.Row="1" Command="{Binding SaveCommand}" Content="{lex:Loc Save}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="70" Height="36" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="168,329,0,0"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="ContactBook.MainWindow"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:LocalizeDictionary.OutputMissingKeys="True"
+        lex:ResxLocalizationProvider.DefaultAssembly="ContactBook"
+        lex:ResxLocalizationProvider.DefaultDictionary="Languages"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactBook"
+        xmlns:viewmodels ="clr-namespace:ContactBook.ViewModel"
+        xmlns:views ="clr-namespace:ContactBook.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <!--<Window.DataContext>
+        <viewmodels:AppViewModel/>
+    </Window.DataContext>-->
+    <Window.Resources>
+        <DataTemplate x:Name="loginViewTemplate" DataType="{x:Type viewmodels:LoginViewModel}">
+            <views:Login/>
+        </DataTemplate>
+        <DataTemplate x:Name="signupViewTemplate" DataType="{x:Type viewmodels:SignupViewModel}">
+            <views:Signup/>
+        </DataTemplate>
+        <DataTemplate x:Name="welcomeViewTemplate" DataType="{x:Type viewmodels:AppViewModel}">
+            <views:Welcome/>
+        </DataTemplate>
+        <DataTemplate x:Name="contactbookViewTemplate" DataType="{x:Type viewmodels:ContactBookViewModel}">
+            <views:ContactBook/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Border CornerRadius="7" Background="Transparent" BorderBrush="Black" BorderThickness="1">
+            <Grid>
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Images/Aqua_Blue.png"/>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Row="0" FontSize="10" Grid.Column="2" Background="Transparent" ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
+                    SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture}" DisplayMemberPath="NativeName" Margin="100,3,3,30.8"  />
+                    <DockPanel Grid.Row="0" Background="LightGray" MouseEnter="DockPanel_MouseEnter" MouseLeave="DockPanel_MouseLeave" Opacity="0.2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="352" Height="50" Grid.RowSpan="2" Grid.ColumnSpan="3">
+                        <Border BorderThickness="1" BorderBrush="LightBlue">
+                            <StackPanel Orientation="Horizontal" Width="351">
+                                <Button Content="{lex:Loc Login}" Width="115" FontSize="20" Command="{Binding LoginButtonCommand}" FontWeight="Bold"/>
+                                <Button Content="{lex:Loc Signup}" Width="120" FontSize="20" FontWeight="Bold" Command="{Binding SignupButtonCommand}"/>
+                                <Button Content="{lex:Loc Exit}" Width="115" FontSize="20" Command="{Binding ExitButtonCommand}" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+                    </DockPanel>
+                <ContentControl Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding CurrentView}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
